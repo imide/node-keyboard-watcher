@@ -1,4 +1,4 @@
-import { keyboardWatcher } from '..'
+import { keyboardWatcher } from '../index.js'
 
 keyboardWatcher.start(); // key B
 

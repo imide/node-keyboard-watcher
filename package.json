@@ -1,24 +1,25 @@
-  {
-    "name": "node-keyboard-watcher",
-    "version": "1.0.3",
-    "author": {
-      "name": "Guus van der Meer"
-    },
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/OhMyGuus/node-keyboard-watcher.git"
-    },
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+{
+  "name": "node-keyboard-watcher",
+  "version": "1.0.3",
+  "author": {
+    "name": "Guus van der Meer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OhMyGuus/node-keyboard-watcher.git"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "private": true,
   "gypfile": true,
   "scripts": {
-    "install": "node-gyp rebuild && yarn build-ts",
+    "install": "node-gyp rebuild && npm run build-ts",
     "build32": "node-gyp clean configure build --arch=ia32",
     "build64": "node-gyp clean configure build --arch=x64",
     "prebuild": "prebuildify --napi",
+    "prebuild:ia32": "prebuildify --napi --arch ia32 --target node@22.23.2",
     "build-ts": "tsc",
-    "demo": "node-gyp build && yarn build-ts && node dist/demo/keyboardWatcher-demo.js"
+    "demo": "node-gyp build && npm run build-ts && node dist/demo/keyboardWatcher-demo.js"
   },
   "files": [
     "dist/index.d.ts",
@@ -29,18 +30,12 @@
     "prebuilds"
   ],
   "devDependencies": {
-    "@types/node": "12.x.x",
-    "prebuildify": "4.x.x",
-    "ts-node": "9.x.x",
-    "typescript": "4.x.x"
+    "@types/node": "^24.9.0",
+    "prebuildify": "6.x.x"
   },
   "dependencies": {
-    "bindings": "*",
-    "node-addon-api": "*",
-    "@types/throttle-debounce": "2.x.x",
-    "throttle-debounce": "2.x.x",
-    "ts-node": "9.x.x",
-    "typescript": "4.x.x"
+    "node-addon-api": "^8.9.2",
+    "node-gyp-build": "4.x.x",
+    "typescript": "^7.0.2"
   }
-  
 }

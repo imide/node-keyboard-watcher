@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
+import { join } from "path";
 
-const lib: AddonExports = require("bindings")("keywatcher");
+const lib: AddonExports = require("node-gyp-build")(join(__dirname, ".."));
 interface AddonExports {
   start(cb: (e: any) => void) : void;
   addKeyHook(keyId: number) : void;

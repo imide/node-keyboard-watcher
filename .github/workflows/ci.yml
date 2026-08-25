@@ -1,0 +1,68 @@
+name: Prebuild
+
+on:
+  push:
+    branches: [master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  prebuild:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: ubuntu-latest
+            platform: linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build prebuilds
+        run: npm run prebuild
+
+      - name: Build ia32 prebuilds (Windows)
+        if: runner.os == 'Windows'
+        run: npm run prebuild:ia32
+
+      - name: Upload prebuilds
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuilds-${{ matrix.platform }}
+          path: prebuilds
+          if-no-files-found: error
+
+  release:
+    needs: prebuild
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: prebuilds-*
+          merge-multiple: true
+          path: prebuilds
+
+      - name: Attach prebuilds to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: prebuilds/**/*.node
