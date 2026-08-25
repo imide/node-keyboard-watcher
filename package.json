@@ -13,7 +13,8 @@
   "private": true,
   "gypfile": true,
   "scripts": {
-    "install": "node-gyp rebuild && npm run build-ts",
+    "prepare": "npm run build-ts",
+    "install": "node-gyp-build",
     "build32": "node-gyp clean configure build --arch=ia32",
     "build64": "node-gyp clean configure build --arch=x64",
     "prebuild": "prebuildify --napi",
