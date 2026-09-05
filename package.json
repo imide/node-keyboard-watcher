@@ -1,6 +1,6 @@
 {
   "name": "node-keyboard-watcher",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": {
     "name": "Guus van der Meer"
   },
@@ -32,11 +32,11 @@
   ],
   "devDependencies": {
     "@types/node": "^24.9.0",
-    "prebuildify": "6.x.x"
+    "prebuildify": "6.x.x",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "node-addon-api": "^8.9.2",
-    "node-gyp-build": "4.x.x",
-    "typescript": "^7.0.2"
+    "node-gyp-build": "4.x.x"
   }
 }
